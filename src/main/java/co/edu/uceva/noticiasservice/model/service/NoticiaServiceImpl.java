@@ -5,6 +5,8 @@ import co.edu.uceva.noticiasservice.model.entities.Noticia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class NoticiaServiceImpl implements NoticiaService {
     @Autowired
@@ -20,10 +22,14 @@ public class NoticiaServiceImpl implements NoticiaService {
         noticiaDao.delete(noticia);
     }
 
+    @Override
     public Noticia findById(int id){
         return noticiaDao.findById(id).orElse(null);
     }
 
-
+    @Override
+    public List<Noticia> listar() {
+        return (List<Noticia>) noticiaDao.findAll();
+    }
 
 }
