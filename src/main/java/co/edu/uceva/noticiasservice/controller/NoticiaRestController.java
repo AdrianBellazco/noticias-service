@@ -21,14 +21,9 @@ public class NoticiaRestController {
 
     //eliminar noticia y controlar errores
     @DeleteMapping("/noticia/{id}")
-    public ResponseEntity<Object> deleteNoticia(@PathVariable int id) {
+    public void deleteNoticia(@PathVariable int id) {
         Noticia noticia = this.noticiaService.findById(id);
-        if (noticia != null) {
-            return ResponseEntity.notFound().build();
-        }
-
         this.noticiaService.delete(noticia);
-        return ResponseEntity.noContent().build();
     }
 
 
