@@ -45,7 +45,7 @@ public class NoticiaRestController {
         return new ResponseEntity<List<Noticia>>(noticia, HttpStatus.OK);
 }
 
-
+// Pueba de commit*
 
 
 }
