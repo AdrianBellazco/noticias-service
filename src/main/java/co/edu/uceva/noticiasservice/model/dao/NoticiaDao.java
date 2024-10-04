@@ -1,4 +1,8 @@
 package co.edu.uceva.noticiasservice.model.dao;
 
-public interface NoticiaDao {
+import co.edu.uceva.noticiasservice.model.entities.Noticia;
+import org.springframework.data.repository.CrudRepository;
+
+public interface NoticiaDao extends CrudRepository<Noticia, Integer> {
+
 }
