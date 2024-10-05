@@ -14,8 +14,6 @@ public interface NoticiaService {
 
     List<Noticia> listar();
 
-
-
-
+    Noticia update(Noticia noticia);
 
 }

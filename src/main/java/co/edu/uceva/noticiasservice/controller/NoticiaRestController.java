@@ -48,5 +48,9 @@ public class NoticiaRestController {
 // Pueba de commit*
     //:)
 
+    @PutMapping("/noticia")
+    public Noticia actualizarNoticia(@RequestBody Noticia noticia) {
+        return this.noticiaService.save(noticia);
+    }
 
 }

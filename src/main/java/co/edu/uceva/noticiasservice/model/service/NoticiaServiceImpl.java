@@ -32,4 +32,8 @@ public class NoticiaServiceImpl implements NoticiaService {
         return (List<Noticia>) noticiaDao.findAll();
     }
 
+    @Override
+    public Noticia update(Noticia noticia) { return noticiaDao.save(noticia);
+    }
+
 }
