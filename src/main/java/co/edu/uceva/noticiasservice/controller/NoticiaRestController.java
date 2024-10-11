@@ -6,6 +6,10 @@ import co.edu.uceva.noticiasservice.model.service.NoticiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+
+
+import java.util.List;
 
 @RestController()
 public class NoticiaRestController {
@@ -15,7 +19,8 @@ public class NoticiaRestController {
 
     //crear noticia
     @PostMapping("/noticia")
-    public Noticia createNoticia(@RequestBody Noticia noticia) {
+    public Noticia createNoticia(@RequestBody Noticia noticia)
+    {
         return this.noticiaService.save(noticia);
     }
 
@@ -23,12 +28,24 @@ public class NoticiaRestController {
     @DeleteMapping("/noticia/{id}")
     public void deleteNoticia(@PathVariable int id) {
         Noticia noticia = this.noticiaService.findById(id);
-        this.noticiaService.delete(noticia);
+        if(noticia != null) {
+            this.noticiaService.delete(noticia);
+        }
     }
 
+    // Listar todas las noticias (para usuarios regulares, solo muestra las no eliminadas)
+    @GetMapping("/noticia")
+    public ResponseEntity<?> getAllNoticias() {
+        List<Noticia> noticias = this.noticiaService.listar();
+        return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
+    }
 
-
-
+    // Listar historial de noticias (para administrador, muestra todas las noticias)
+    @GetMapping("/noticia/historial")
+    public ResponseEntity<?> getHistorialNoticias() {
+        List<Noticia> noticias = this.noticiaService.listarTodas();
+        return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
+    }
 
 
 }

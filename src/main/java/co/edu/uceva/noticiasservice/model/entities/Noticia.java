@@ -18,4 +18,16 @@ public class Noticia {
     private String autor;
     private String imagen;
     private String fecha;
+    private boolean eliminada;
+
+    public Boolean getId(){
+        return eliminada;
+    }
+
+    public  void setID(boolean eliminada){
+        this.eliminada = eliminada;
+    }
 }
+
+
+
