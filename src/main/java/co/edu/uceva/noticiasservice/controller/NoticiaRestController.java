@@ -50,5 +50,17 @@ public class NoticiaRestController {
         List<Noticia> noticias = this.noticiaService.listarTodas();  // Incluye eliminadas
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
+    @GetMapping("/noticias/filter")
+    public ResponseEntity<List<Noticia>> filterNoticias(
+            @RequestParam(required = false) String programa,
+            @RequestParam(required = false) String importancia,
+            @RequestParam(required = false) String lugar,
+            @RequestParam(required = false) Boolean diurna,
+            @RequestParam(required = false) Boolean nocturna,
+            @RequestParam(required = false) Boolean evento,
+            @RequestParam(required = false) Boolean noticia) {
 
+        List<Noticia> noticias = noticiaService.filterNoticia(programa, importancia, lugar, diurna, nocturna, evento, noticia);
+        return ResponseEntity.ok(noticias);
+    }
 }

@@ -16,4 +16,8 @@ public interface NoticiaService {
 
     List<Noticia> listar();
 
+    List<Noticia> filterNoticia(String programa, String importancia, String lugar, boolean diurna, boolean nocturna, boolean evento, boolean noticia);
+
+    List<Noticia> filterNoticia(String programa, String importancia, String lugar, Boolean diurna, Boolean nocturna, Boolean evento, Boolean noticia);
+
 }
