@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController()
 public class NoticiaRestController {
@@ -48,8 +49,14 @@ public class NoticiaRestController {
     //Modificar y actualizar noticia
     @PutMapping("/noticia/{id}")
     public ResponseEntity<?> actualizarNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
-        Noticia noticia = this.noticiaService.findById(id);
         try {
+            Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
+            if (noticiaOptional .isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Noticia no encontrada, ingrese de nuevo");
+            }
+
+            Noticia noticia = noticiaOptional.get();
+
             noticia.setTitulo(newnoticia.getTitulo());
             noticia.setTexto(newnoticia.getTexto());
             noticia.setAutor(newnoticia.getAutor());
@@ -61,7 +68,7 @@ public class NoticiaRestController {
             return ResponseEntity.ok(noticiaActualizada);
 
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Ocurrió un error al actualizar la noticia");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al actualizar la noticia");
         }
     }
 }
