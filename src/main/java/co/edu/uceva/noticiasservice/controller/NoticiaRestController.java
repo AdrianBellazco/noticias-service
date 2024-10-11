@@ -23,9 +23,9 @@ public class NoticiaRestController {
 
     //crear noticia
     @PostMapping("/noticia")
-    public Noticia createNoticia(@RequestBody Noticia noticia)
-    {
-        return this.noticiaService.save(noticia);
+    public ResponseEntity<Noticia> createNoticia(@RequestBody Noticia noticia) {
+        Noticia nuevaNoticia = noticiaService.save(noticia);
+        return new ResponseEntity<>(nuevaNoticia, HttpStatus.CREATED);
     }
 
     //eliminar noticia y controlar errores
@@ -38,16 +38,19 @@ public class NoticiaRestController {
     }
 
     // Listar todas las noticias (para usuarios regulares, solo muestra las no eliminadas)
-    @GetMapping("/noticia")
-    public ResponseEntity<?> getAllNoticias() {
-        List<Noticia> noticias = this.noticiaService.listar();
+    public ResponseEntity<?> getAllNoticias(@RequestParam(value = "prioridad", required = false) int prioridad) {
+        List<Noticia> noticias;
+        noticias = noticiaService.listarPorPrioridadNoEliminadas();  // Muestra todas las no eliminadas
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
 
     // Listar historial de noticias (para administrador, muestra todas las noticias)
     @GetMapping("/noticia/historial")
-    public ResponseEntity<?> getHistorialNoticias() {
-        List<Noticia> noticias = this.noticiaService.listarTodas();  // Incluye eliminadas
+    public ResponseEntity<?> getHistorialNoticias(@RequestParam(value = "prioridad", required = false) int prioridad) {
+        List<Noticia> noticias;
+
+        noticias = noticiaService.listarTodasPorPrioridad();
+
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
 

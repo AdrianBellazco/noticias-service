@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+
+
+
 @Data
 @Entity
 public class Noticia {
@@ -18,7 +21,11 @@ public class Noticia {
     private String autor;
     private String imagen;
     private String fecha;
+    private int prioridad;
     private boolean eliminada;
+
+
+
 
 }
 

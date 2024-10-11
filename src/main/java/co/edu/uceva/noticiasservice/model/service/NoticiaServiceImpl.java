@@ -30,14 +30,26 @@ public class NoticiaServiceImpl implements NoticiaService {
         return noticiaDao.findById(id).orElse(null);
     }
 
-
     //listar noticias no eliminadas
     @Override
     public List<Noticia> listar() {
         return noticiaDao.findByEliminadaFalse();  // Solo devolvemos las no eliminadas
     }
+    @Override
+    public List<Noticia> listarPorPrioridadNoEliminadas(int prioridad) {
+        return noticiaDao.findByPrioridadAndEliminadaFalse(prioridad);
+    }
+
+    // Listar todas las noticias (incluidas eliminadas) por prioridad
+    @Override
+    public List<Noticia> listarTodasPorPrioridad(int prioridad) {
+        return noticiaDao.findByPrioridad(prioridad);
+    }
+
 
     //listar todas las noticias
+
+    @Override
     public List<Noticia> listarTodas() {
         Iterable<Noticia> iterableNoticias = noticiaDao.findAll();
         List<Noticia> listaNoticias = new ArrayList<>();
@@ -47,6 +59,7 @@ public class NoticiaServiceImpl implements NoticiaService {
 
         return listaNoticias;
     }
+
 
 
 }

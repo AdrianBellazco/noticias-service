@@ -8,4 +8,8 @@ public interface NoticiaDao extends CrudRepository<Noticia, Integer> {
 
 
     List<Noticia> findByEliminadaFalse();
+
+    List<Noticia> findByPrioridadAndEliminadaFalse(int prioridad);
+    List<Noticia> findByPrioridad(int prioridad);
+
 }
