@@ -11,11 +11,8 @@ public interface NoticiaService {
 
     Noticia findById(int id);
 
-    List<Noticia> listarTodas();
-    List<Noticia> listarTodasPorPrioridad(int prioridad);
-    List<Noticia> listarPorPrioridadNoEliminadas(int prioridad);
+    List<Noticia> listarTodas(int prioridad);
 
-
-    List<Noticia> listar();
+    List<Noticia> listar(int prioridad);
 
 }

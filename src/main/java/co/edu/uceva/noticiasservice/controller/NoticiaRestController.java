@@ -38,9 +38,10 @@ public class NoticiaRestController {
     }
 
     // Listar todas las noticias (para usuarios regulares, solo muestra las no eliminadas)
+    @GetMapping("/noticia")
     public ResponseEntity<?> getAllNoticias(@RequestParam(value = "prioridad", required = false) int prioridad) {
         List<Noticia> noticias;
-        noticias = noticiaService.listarPorPrioridadNoEliminadas();  // Muestra todas las no eliminadas
+        noticias = noticiaService.listar(prioridad);  // Muestra todas las no eliminadas
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
 
@@ -49,7 +50,7 @@ public class NoticiaRestController {
     public ResponseEntity<?> getHistorialNoticias(@RequestParam(value = "prioridad", required = false) int prioridad) {
         List<Noticia> noticias;
 
-        noticias = noticiaService.listarTodasPorPrioridad();
+        noticias = noticiaService.listarTodas(prioridad);
 
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }

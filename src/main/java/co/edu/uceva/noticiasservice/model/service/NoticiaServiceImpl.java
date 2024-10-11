@@ -3,6 +3,7 @@ package co.edu.uceva.noticiasservice.model.service;
 import co.edu.uceva.noticiasservice.model.dao.NoticiaDao;
 import co.edu.uceva.noticiasservice.model.entities.Noticia;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
@@ -32,26 +33,16 @@ public class NoticiaServiceImpl implements NoticiaService {
 
     //listar noticias no eliminadas
     @Override
-    public List<Noticia> listar() {
-        return noticiaDao.findByEliminadaFalse();  // Solo devolvemos las no eliminadas
-    }
-    @Override
-    public List<Noticia> listarPorPrioridadNoEliminadas(int prioridad) {
-        return noticiaDao.findByPrioridadAndEliminadaFalse(prioridad);
-    }
-
-    // Listar todas las noticias (incluidas eliminadas) por prioridad
-    @Override
-    public List<Noticia> listarTodasPorPrioridad(int prioridad) {
-        return noticiaDao.findByPrioridad(prioridad);
+    public List<Noticia> listar(int prioridad) {
+        return noticiaDao.findByEliminadaFalse(Sort.by(Sort.Order.desc("prioridad")));  // Solo devolvemos las no eliminadas
     }
 
 
     //listar todas las noticias
 
     @Override
-    public List<Noticia> listarTodas() {
-        Iterable<Noticia> iterableNoticias = noticiaDao.findAll();
+    public List<Noticia> listarTodas(int prioridad) {
+        Iterable<Noticia> iterableNoticias = noticiaDao.findAll(Sort.by(Sort.Order.desc("prioridad")));
         List<Noticia> listaNoticias = new ArrayList<>();
 
         // Convertir el Iterable en una List
