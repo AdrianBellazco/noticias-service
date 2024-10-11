@@ -45,12 +45,23 @@ public class NoticiaRestController {
         return new ResponseEntity<List<Noticia>>(noticia, HttpStatus.OK);
 }
 
-// Pueba de commit*
-    //:)
+    //Modificar y actualizar noticia
+    @PutMapping("/noticia/{id}")
+    public ResponseEntity<?> actualizarNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
+        Noticia noticia = this.noticiaService.findById(id);
+        try {
+            noticia.setTitulo(newnoticia.getTitulo());
+            noticia.setTexto(newnoticia.getTexto());
+            noticia.setAutor(newnoticia.getAutor());
+            noticia.setImagen(newnoticia.getImagen());
+            noticia.setFecha(newnoticia.getFecha());
 
-    @PutMapping("/noticia")
-    public Noticia actualizarNoticia(@RequestBody Noticia noticia) {
-        return this.noticiaService.save(noticia);
+            Noticia noticiaActualizada = noticiaService.save(noticia);
+
+            return ResponseEntity.ok(noticiaActualizada);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Ocurrió un error al actualizar la noticia");
+        }
     }
-
 }
