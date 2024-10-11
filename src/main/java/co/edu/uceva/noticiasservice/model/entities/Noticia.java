@@ -18,4 +18,9 @@ public class Noticia {
     private String autor;
     private String imagen;
     private String fecha;
+    private boolean eliminada;
+
 }
+
+
+
