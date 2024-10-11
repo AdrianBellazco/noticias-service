@@ -29,12 +29,14 @@ public class NoticiaServiceImpl implements NoticiaService {
         return noticiaDao.findById(id).orElse(null);
     }
 
+
+    //listar noticias no eliminadas
     @Override
     public List<Noticia> listar() {
-        return (List<Noticia>) noticiaDao.findAll();
+        return noticiaDao.findByEliminadaFalse();  // Solo devolvemos las no eliminadas
     }
 
-
+    //listar todas las noticias
     public List<Noticia> listarTodas() {
         Iterable<Noticia> iterableNoticias = noticiaDao.findAll();
         List<Noticia> listaNoticias = new ArrayList<>();

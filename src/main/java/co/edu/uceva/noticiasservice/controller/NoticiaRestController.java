@@ -43,9 +43,8 @@ public class NoticiaRestController {
     // Listar historial de noticias (para administrador, muestra todas las noticias)
     @GetMapping("/noticia/historial")
     public ResponseEntity<?> getHistorialNoticias() {
-        List<Noticia> noticias = this.noticiaService.listarTodas();
+        List<Noticia> noticias = this.noticiaService.listarTodas();  // Incluye eliminadas
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
-
 
 }

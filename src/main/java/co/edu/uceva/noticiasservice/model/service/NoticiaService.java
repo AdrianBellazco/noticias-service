@@ -10,6 +10,7 @@ public interface NoticiaService {
     void delete(Noticia noticia);
 
     Noticia findById(int id);
+
     List<Noticia> listarTodas();
 
 
