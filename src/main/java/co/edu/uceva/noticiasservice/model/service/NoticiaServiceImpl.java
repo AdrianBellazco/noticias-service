@@ -49,4 +49,8 @@ public class NoticiaServiceImpl implements NoticiaService {
     }
 
 
+    @Override
+    public Noticia update(Noticia noticia) { return noticiaDao.save(noticia);
+    }
+
 }

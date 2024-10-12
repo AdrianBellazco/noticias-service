@@ -1,6 +1,7 @@
 package co.edu.uceva.noticiasservice.model.service;
 
 import co.edu.uceva.noticiasservice.model.entities.Noticia;
+
 import java.util.List;
 
 public interface NoticiaService {
@@ -15,5 +16,7 @@ public interface NoticiaService {
 
 
     List<Noticia> listar();
+
+    Noticia update(Noticia noticia);
 
 }
