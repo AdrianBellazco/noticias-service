@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController()
@@ -64,6 +62,29 @@ public class NoticiaRestController {
             noticia.setAutor(newnoticia.getAutor());
             noticia.setImagen(newnoticia.getImagen());
             noticia.setFecha(newnoticia.getFecha());
+
+            Noticia noticiaActualizada = noticiaService.save(noticia);
+
+            return ResponseEntity.ok(noticiaActualizada);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al actualizar la noticia");
+        }
+    }
+
+
+    //Modificar y actualizar noticia
+    @PutMapping("/noticia/guardar/{id}")
+    public ResponseEntity<?> guardaNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
+        try {
+            Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
+            if (noticiaOptional .isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Noticia no encontrada, ingrese de nuevo");
+            }
+
+            Noticia noticia = noticiaOptional.get();
+
+            noticia.setGuardar(newnoticia.isGuardar());
 
             Noticia noticiaActualizada = noticiaService.save(noticia);
 

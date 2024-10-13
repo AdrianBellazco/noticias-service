@@ -19,6 +19,7 @@ public class Noticia {
     private String imagen;
     private String fecha;
     private boolean eliminada;
+    private boolean guardar;
 
 }
 

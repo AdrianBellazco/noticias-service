@@ -19,4 +19,6 @@ public interface NoticiaService {
 
     Noticia update(Noticia noticia);
 
+
+
 }
