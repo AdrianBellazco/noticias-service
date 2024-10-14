@@ -19,6 +19,7 @@ public interface NoticiaService {
 
     Noticia update(Noticia noticia);
 
+    List<Noticia> findByGuardada(boolean guardar);
 
 
 }

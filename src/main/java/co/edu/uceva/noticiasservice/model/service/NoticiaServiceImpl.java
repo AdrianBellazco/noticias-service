@@ -27,6 +27,7 @@ public class NoticiaServiceImpl implements NoticiaService {
 
     @Override
     public Noticia findById(int id){
+
         return noticiaDao.findById(id).orElse(null);
     }
 
@@ -52,5 +53,11 @@ public class NoticiaServiceImpl implements NoticiaService {
     @Override
     public Noticia update(Noticia noticia) { return noticiaDao.save(noticia);
     }
+
+    @Override
+    public List<Noticia> findByGuardada(boolean guardar){
+        return noticiaDao.findByGuardar(guardar);
+    }
+
 
 }

@@ -88,10 +88,21 @@ public class NoticiaRestController {
 
             Noticia noticiaActualizada = noticiaService.save(noticia);
 
+
+
+
             return ResponseEntity.ok(noticiaActualizada);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al actualizar la noticia");
         }
     }
+
+
+    @GetMapping("guardados/noticias")
+    public List<Noticia> findByGuardada(@RequestParam boolean guardada) {
+        return noticiaService.findByGuardada(guardada);
+    }
+
+
 }
