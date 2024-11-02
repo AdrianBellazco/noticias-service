@@ -20,14 +20,14 @@ public class NoticiaRestController {
     private NoticiaService noticiaService;
 
     //crear noticia
-    @PostMapping("/noticia")
+    @PostMapping("/crear_noticia")
     public Noticia createNoticia(@RequestBody Noticia noticia)
     {
         return this.noticiaService.save(noticia);
     }
 
     //eliminar noticia y controlar errores
-    @DeleteMapping("/noticia/{id}")
+    @DeleteMapping("/eliminar_noticia/{id}")
     public void deleteNoticia(@PathVariable int id) {
         Noticia noticia = this.noticiaService.findById(id);
         if(noticia != null) {
@@ -36,7 +36,7 @@ public class NoticiaRestController {
     }
 
     // Listar todas las noticias (para usuarios regulares, solo muestra las no eliminadas)
-    @GetMapping("/noticia")
+    @GetMapping("/mostrar_noticia")
     public ResponseEntity<?> getAllNoticias() {
         List<Noticia> noticias = this.noticiaService.listar();
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class NoticiaRestController {
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
     //Modificar y actualizar noticia
-    @PutMapping("/noticia/{id}")
+    @PutMapping("/modificar_noticia/{id}")
     public ResponseEntity<?> actualizarNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
         try {
             Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
