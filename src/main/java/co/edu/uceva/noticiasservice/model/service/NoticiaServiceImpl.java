@@ -53,4 +53,27 @@ public class NoticiaServiceImpl implements NoticiaService {
     public Noticia update(Noticia noticia) { return noticiaDao.save(noticia);
     }
 
+    @Override
+    public List<Noticia> filterNoticia(String programa, String importancia, String lugar, boolean diurna, boolean nocturna, boolean evento, boolean noticia) {
+        return List.of();
+    }
+
+    @Override
+    public List<Noticia> filterNoticia(String programa, String importancia, String lugar, Boolean diurna, Boolean nocturna, Boolean evento, Boolean noticia) {
+        // Si todos los filtros son nulos o false, retorna todas las noticias
+        if ((programa == null || programa.isEmpty()) &&
+                (importancia == null || importancia.isEmpty()) &&
+                (lugar == null || lugar.isEmpty()) &&
+                (diurna == null || !diurna) &&
+                (nocturna == null || !nocturna) &&
+                (evento == null || !evento) &&
+                (noticia == null || !noticia)) {
+            return (List<Noticia>) noticiaDao.findAll();
+        }
+
+        // Aquí asegúrate de que tu consulta es correcta
+        return noticiaDao.filterNoticia(programa, importancia, lugar, diurna, nocturna, evento, noticia);
+    }
+
 }
+

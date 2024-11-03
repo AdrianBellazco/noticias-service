@@ -19,8 +19,27 @@ public class Noticia {
     private String imagen;
     private String fecha;
     private boolean eliminada;
+    //Categorias usadas para filtrar******
+    //@ElementCollection
+    private String programa;
+    //private ArrayList<String> programa; // Nueva categoría
+    private String importancia; // Nueva categoría
+    private String lugar;       // Nueva categoría
+    private boolean diurna;     // Nueva categoría
+    private boolean nocturna;   // Nueva categoría
+    private boolean evento;     // Nueva categoría
+    private boolean noticia;    // Nueva categoría
+
+    // Constructor inicializando la lista de programa vacía
+    // public Noticia() {
+    //    this.programa = new ArrayList<>();
+    //}
+
+    // Métodos para agregar a la lista de programa
+    //public void addPrograma(String programa) {
+    // this.programa.add(programa);
+    //}
+    //*****************
 
 }
-
-
 
