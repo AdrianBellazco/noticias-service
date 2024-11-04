@@ -75,5 +75,10 @@ public class NoticiaServiceImpl implements NoticiaService {
         return noticiaDao.filterNoticia(programa, importancia, lugar, diurna, nocturna, evento, noticia);
     }
 
+    @Override
+    public List<Noticia> findByNoticiaFavorita(boolean favorita){
+        return noticiaDao.findByfavorita(favorita);
+    }
+
 }
 

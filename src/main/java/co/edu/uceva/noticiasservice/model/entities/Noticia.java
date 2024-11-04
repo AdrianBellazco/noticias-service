@@ -29,6 +29,7 @@ public class Noticia {
     private boolean nocturna;   // Nueva categoría
     private boolean evento;     // Nueva categoría
     private boolean noticia;    // Nueva categoría
+    private boolean favorita; //new
 
     // Constructor inicializando la lista de programa vacía
     // public Noticia() {

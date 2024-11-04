@@ -20,14 +20,14 @@ public class NoticiaRestController {
     private NoticiaService noticiaService;
 
     //crear noticia
-    @PostMapping("/crear_noticia")
+    @PostMapping("/noticias/crear_noticia")
     public Noticia createNoticia(@RequestBody Noticia noticia)
     {
         return this.noticiaService.save(noticia);
     }
 
     //eliminar noticia y controlar errores
-    @DeleteMapping("/eliminar_noticia/{id}")
+    @DeleteMapping("/noticias/eliminar_noticia/{id}")
     public void deleteNoticia(@PathVariable int id) {
         Noticia noticia = this.noticiaService.findById(id);
         if(noticia != null) {
@@ -36,7 +36,7 @@ public class NoticiaRestController {
     }
 
     // Listar todas las noticias (para usuarios regulares, solo muestra las no eliminadas)
-    @GetMapping("/mostrar_noticia")
+    @GetMapping("/noticias/mostrar_noticia")
     public ResponseEntity<?> getAllNoticias() {
         List<Noticia> noticias = this.noticiaService.listar();
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class NoticiaRestController {
         return new ResponseEntity<List<Noticia>>(noticias, HttpStatus.OK);
     }
     //Modificar y actualizar noticia
-    @PutMapping("/modificar_noticia/{id}")
+    @PutMapping("/noticias/modificar_noticia/{id}")
     public ResponseEntity<?> actualizarNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
         try {
             Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
@@ -63,7 +63,12 @@ public class NoticiaRestController {
             noticia.setTexto(newnoticia.getTexto());
             noticia.setAutor(newnoticia.getAutor());
             noticia.setImagen(newnoticia.getImagen());
-            noticia.setFecha(newnoticia.getFecha());
+            //noticia.setFecha(newnoticia.getFecha());
+            noticia.setEliminada(newnoticia.isEliminada());
+            noticia.setPrograma((newnoticia.getPrograma()));
+            noticia.setImportancia(newnoticia.getImportancia());
+            noticia.setNocturna(newnoticia.isNocturna());
+            noticia.setFavorita(newnoticia.isFavorita());
 
             Noticia noticiaActualizada = noticiaService.save(noticia);
 
@@ -74,7 +79,7 @@ public class NoticiaRestController {
         }
     }
 
-    @GetMapping("/noticias/filter")
+    @GetMapping("/noticias/filtrar")
     public ResponseEntity<List<Noticia>> filterNoticias(
             @RequestParam(required = false) String programa,
             @RequestParam(required = false) String importancia,
@@ -88,5 +93,36 @@ public class NoticiaRestController {
         return ResponseEntity.ok(noticias);
     }
 
+    //Guardar noticia como favorita
+    @PutMapping("/noticia/noticias_favorita/{id}")
+    public ResponseEntity<?> guardaNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
+        try {
+            Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
+            if (noticiaOptional .isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Noticia no encontrada, ingrese de nuevo");
+            }
+
+            Noticia noticia = noticiaOptional.get();
+
+            noticia.setFavorita(newnoticia.isFavorita());
+
+            Noticia noticiaActualizada = noticiaService.save(noticia);
+
+
+
+
+            return ResponseEntity.ok(noticiaActualizada);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al actualizar la noticia");
+        }
+    }
+
+    //mostrar noticias guardadas o favoritas
+
+    @GetMapping("noticia/mostrar_guardados")
+    public List<Noticia> findByfavorita(@RequestParam boolean favorita) {
+        return noticiaService.findByNoticiaFavorita(favorita);
+    }
 
 }

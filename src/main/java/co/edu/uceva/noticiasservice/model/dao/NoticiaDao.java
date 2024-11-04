@@ -12,6 +12,8 @@ public interface NoticiaDao extends CrudRepository<Noticia, Integer> {
 
     List<Noticia> findByEliminadaFalse();
 
+    List<Noticia> findByfavorita(boolean favorita);
+
     @Query("SELECT n FROM Noticia n WHERE " +
             "(:programa IS NULL OR n.programa LIKE %:programa%) " +
             "AND (:importancia IS NULL OR n.importancia = :importancia) " +
