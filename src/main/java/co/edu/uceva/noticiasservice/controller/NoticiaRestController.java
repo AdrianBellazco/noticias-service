@@ -79,6 +79,7 @@ public class NoticiaRestController {
         }
     }
 
+    //Filtrar noticias
     @GetMapping("/noticias/filtrar")
     public ResponseEntity<List<Noticia>> filterNoticias(
             @RequestParam(required = false) String programa,
@@ -108,9 +109,6 @@ public class NoticiaRestController {
 
             Noticia noticiaActualizada = noticiaService.save(noticia);
 
-
-
-
             return ResponseEntity.ok(noticiaActualizada);
 
         } catch (Exception e) {
@@ -118,11 +116,17 @@ public class NoticiaRestController {
         }
     }
 
-    //mostrar noticias guardadas o favoritas
+    //Mostrar noticias guardadas o favoritas
+    @GetMapping("/noticia/mostrar_guardados")
+    public ResponseEntity<?> findByFavorita() {
+        boolean favorita = true;
+        List<Noticia> noticias = noticiaService.findByNoticiaFavorita(favorita);
 
-    @GetMapping("noticia/mostrar_guardados")
-    public List<Noticia> findByfavorita(@RequestParam boolean favorita) {
-        return noticiaService.findByNoticiaFavorita(favorita);
+        if (noticias.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron noticias favoritas guardadas.");
+        } else {
+            return ResponseEntity.ok(noticias);
+        }
     }
 
 }
