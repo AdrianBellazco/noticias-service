@@ -1,0 +1,9 @@
+INSERT INTO noticia (id, titulo, texto, autor, imagen, fecha, eliminada, programa, importancia, lugar, diurna, nocturna, evento, noticia, favorita) VALUES (24, 'Nuevo programa de Ingeniería', 'La universidad lanza un nuevo programa de Ingeniería de Software', 'Juan Pérez', 'imagen1.jpg', '2024-10-14', FALSE, 'Ingeniería', 'Alta', 'Campus Principal', TRUE, FALSE, FALSE, TRUE, FALSE);
+
+INSERT INTO noticia (id, titulo, texto, autor, imagen, fecha, eliminada, programa, importancia, lugar, diurna, nocturna, evento, noticia, favorita) VALUES (96, 'Conferencia de IA', 'Experto en Inteligencia Artificial dará una charla', 'María López', 'imagen2.jpg', '2024-10-15', FALSE, 'Sistemas', 'Media', 'Auditorio Central', FALSE, TRUE, TRUE, FALSE, FALSE);
+
+INSERT INTO noticia (id, titulo, texto, autor, imagen, fecha, eliminada, programa, importancia, lugar, diurna, nocturna, evento, noticia, favorita) VALUES (37, 'Resultados de investigación', 'Se publican los resultados del proyecto de investigación en Biología', 'Carlos Rodríguez', 'imagen3.jpg', '2024-10-16', FALSE, 'Biología', 'Alta', 'Laboratorio de Ciencias', TRUE, TRUE, FALSE, TRUE, FALSE);
+
+INSERT INTO noticia (id, titulo, texto, autor, imagen, fecha, eliminada, programa, importancia, lugar, diurna, nocturna, evento, noticia, favorita) VALUES (462, 'Feria de empleo', 'Gran feria de empleo para estudiantes y egresados', 'Ana Martínez', 'imagen4.jpg', '2024-10-17', FALSE, 'Todos', 'Media', 'Pabellón Deportivo', TRUE, TRUE, TRUE, FALSE, FALSE);
+
+INSERT INTO noticia (id, titulo, texto, autor, imagen, fecha, eliminada, programa, importancia, lugar, diurna, nocturna, evento, noticia, favorita) VALUES (7875, 'Cambio en horarios', 'Se modifican los horarios de clases del programa de Economía', 'Pedro Sánchez', 'imagen5.jpg', '2024-10-18', FALSE, 'Economía', 'Baja', 'En línea', TRUE, TRUE, FALSE, TRUE, FAlSE);
