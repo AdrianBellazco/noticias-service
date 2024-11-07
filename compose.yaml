@@ -6,4 +6,20 @@ services:
       - 'POSTGRES_PASSWORD=a1b2c3d4'
       - 'POSTGRES_USER=devdb'
     ports:
-      - '5432:5432'
+      - '5435:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  noticia-service:
+    image: 'adriansa02/noticia-service:latest'
+    environment:
+      - 'POSTGRES_DB=curso_sprinboot'
+      - 'POSTGRES_PASSWORD=a1b2c3d4'
+      - 'POSTGRES_USER=devdb'
+    ports:
+      - '8084:8080'
+    profiles:
+      - app # para que el servicio de noticias no inicie en IDEA
+
+volumes:
+  postgres-data: # Definición del volumen en la raíz
