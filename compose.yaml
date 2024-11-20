@@ -12,10 +12,12 @@ services:
 
   noticia-service:
     image: 'adriansa02/noticia-service:latest'
+    depends_on:
+      - postgres
     environment:
-      - 'POSTGRES_DB=curso_sprinboot'
-      - 'POSTGRES_PASSWORD=a1b2c3d4'
-      - 'POSTGRES_USER=devdb'
+      - 'DB_URL=jdbc:postgresql://postgres/curso_sprinboot'
+      - 'DB_PASSWORD=a1b2c3d4'
+      - 'DB_USERNAME=devdb'
     ports:
       - '8084:8080'
     profiles:
