@@ -2,12 +2,21 @@ package co.edu.uceva.noticiasservice.controller;
 
 
 import co.edu.uceva.noticiasservice.model.entities.Noticia;
+import co.edu.uceva.noticiasservice.model.service.IUploadFileService;
 import co.edu.uceva.noticiasservice.model.service.NoticiaService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +25,17 @@ import java.util.Optional;
 @RestController()
 public class NoticiaRestController {
 
+
     @Autowired
     private NoticiaService noticiaService;
 
+    private final IUploadFileService uploadService;
+
+    public NoticiaRestController(NoticiaService noticiaService, IUploadFileService uploadService) {
+        this.noticiaService = noticiaService;
+        this.uploadService = uploadService;
+    }
+    
     //crear noticia
     @PostMapping("/noticias/crear_noticia")
     public Noticia createNoticia(@RequestBody Noticia noticia)
@@ -96,7 +113,7 @@ public class NoticiaRestController {
 
     //Guardar noticia como favorita
     @PutMapping("/noticia/noticias_favorita/{id}")
-    public ResponseEntity<?> guardaNoticia(@PathVariable int id, @RequestBody Noticia newnoticia){
+    public ResponseEntity<?> guardaNoticia(@PathVariable int id){
         try {
             Optional<Noticia> noticiaOptional  = Optional.ofNullable(noticiaService.findById(id));
             if (noticiaOptional .isEmpty()) {
@@ -104,8 +121,7 @@ public class NoticiaRestController {
             }
 
             Noticia noticia = noticiaOptional.get();
-
-            noticia.setFavorita(newnoticia.isFavorita());
+            noticia.setFavorita(!noticia.isFavorita());
 
             Noticia noticiaActualizada = noticiaService.save(noticia);
 
@@ -116,7 +132,7 @@ public class NoticiaRestController {
         }
     }
 
-    //Mostrar noticias guardadas o favoritas
+    //Mostrar noticias favoritas
     @GetMapping("/noticia/mostrar_guardados")
     public ResponseEntity<?> findByFavorita() {
         boolean favorita = true;
@@ -128,5 +144,57 @@ public class NoticiaRestController {
             return ResponseEntity.ok(noticias);
         }
     }
+
+    //Guardar imagen
+    @PostMapping("/noticia/upload")
+    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+
+        Noticia noticia = noticiaService.findById(id);
+        if (noticia == null) {
+            response.put("mensaje", "No se encontró la noticia con el ID especificado.");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        String nombreArchivo = null;
+        try {
+            nombreArchivo = uploadService.copiar(archivo);
+
+            String nombreFotoAnterior = noticia.getImagen();
+            if (nombreFotoAnterior != null && !nombreFotoAnterior.isEmpty()) {
+                uploadService.eliminar(nombreFotoAnterior);
+            }
+
+            noticia.setImagen(nombreArchivo);
+            noticiaService.save(noticia);
+
+            response.put("noticia", noticia);
+            response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        } catch (IOException e) {
+            response.put("mensaje", "Error al subir la imagen de la noticia");
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/uploads/img/{nombreFoto:.+}")
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
+
+        Resource recurso;
+        try {
+            recurso = (Resource) uploadService.cargar(nombreFoto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getClass() + "\"");
+
+        return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
+    }
+
 
 }
